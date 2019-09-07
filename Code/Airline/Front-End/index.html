@@ -1,0 +1,458 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.13/angular-material.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body ng-app="NDC-App" ng-cloak>
+	<md-toolbar><h3 style="margin-left: 20px;">Athena Airway</h3></md-toolbar>
+	<div ng-controller="DemoCtrl as demo">
+		<md-content class="md-padding" layout-xs="column">
+			<div>
+				<form ng-submit="sendTravel()">
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>From</label>
+							<md-select data-ng-model="travel.fromcity" ng-change="getCityFrom()">
+								<md-option ng-repeat="cityfr in citiesfrom" value="{{cityfr}}">
+									{{cityfr}}
+								</md-option>
+							</md-select>
+						</md-input-container>
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>To</label>
+							<md-select ng-model="travel.tocity">
+								<md-option ng-repeat="citto in cityto" value="{{citto}}">
+									{{citto}}
+								</md-option>
+							</md-select>
+						</md-input-container>
+						<md-input-container flex-gt-sm>
+							<label>Depart date</label>
+							<md-datepicker ng-model="travel.departDate"></md-datepicker>
+						</md-input-container>
+						<md-input-container flex-gt-sm>
+							<label>Return date</label>
+							<md-datepicker ng-model="travel.returnDate"></md-datepicker>
+						</md-input-container>
+						<md-input-container flex-gt-sm>
+							<md-button style="margin-top:-20px; margin-left:20px" type="submit" class="md-raised md-primary">SEARCH</md-button>
+						</md-input-container>
+					</div>
+				</form>
+			</div>
+		</md-content>
+
+		<div flex-gt-sm="100" flex ng-model="hasDeparture" ng-show="hasDeparture">
+			<md-toolbar layout="row">
+				<div class="md-toolbar-tools"><span>Departure</span></div>
+			</md-toolbar>
+			<md-content>
+				<md-grid-list md-cols-gt-md = "4" md-cols-sm = "4" md-cols-md = "4"
+				md-row-height-gt-md = "1:1" md-row-height = "4:3" md-gutter-gt-md = "16px" 
+				md-gutter-gt-sm = "8px" md-gutter = "4px" ng-repeat = "flight in goflights track by flight.id">
+					<md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+						<md-grid-tile-header>
+							<h3 md-colors="{color: 'primary'}">Flight details</h3>
+						</md-grid-tile-header>
+						<md-list-item class="md-3-line md-long-text">
+							<div class="md-list-item-text">
+								<p>
+									<span md-colors="{color: 'primary'}">from:</span> {{flight.departs}}
+								</p>
+								<p>
+									<span md-colors="{color: 'primary'}">to:</span> {{flight.arrives}}
+								</p>
+								<p>
+									<span md-colors="{color: 'primary'}">Flight#:</span> {{flight.flight_num}} 
+								</p>
+							</div>
+						</md-list-item>
+					</md-grid-tile>
+					<md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+						<md-grid-tile-header>
+							<h3 md-colors="{color:'primary'}">Schedule</h3>
+						</md-grid-tile-header>
+						<md-list-item class="md-3-line md-long-text">
+							<div class="md-list-item-text">
+								<p>
+									<span md-colors="{color: 'primary'}">Departs at:</span> {{flight.dept_time}}
+								</p>
+								<p>
+									<span md-colors="{color: 'primary'}">Arrives at:</span> {{flight.arrival_time}}
+								</p>
+								<p>
+									<span md-colors="{color: 'primary'}">Airplane:</span>  {{flight.equipment}}
+								</p>
+							</div>
+						</md-list-item>
+					</md-grid-tile>
+					<md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+						<md-grid-tile-header>
+							<h3 md-colors="{color: 'primary'}">Includes</h3>
+						</md-grid-tile-header>
+						<md-list-item class="md-3-line md-long-text">
+							<div class="md-list-item-text">
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">In-flight WiFi usage</md-tooltip>
+									<i class="material-icons">wifi</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Lounge</md-tooltip>
+									<i class="material-icons">local_bar</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Meal & bar</md-tooltip>
+									<i class="material-icons">local_dining</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Entertainment</md-tooltip>
+									<i class="material-icons">live_tv</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Baggage 1</md-tooltip>
+									<i class="material-icons">work</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Baggage 2</md-tooltip>
+									<i class="material-icons">work</i>
+								</md-button>  
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Hand Baggage</md-tooltip>
+									<i class="material-icons">pregnant_woman</i>
+								</md-button>
+								<md-button class="md-fab md-mini">
+									<md-tooltip md-direction="bottom">Seat</md-tooltip>
+									<i class="material-icons">airline_seat_recline_extra</i>
+								</md-button>
+                
+								<md-fab-speed-dial ng-hide="demo.hidden" md-direction="left" md-open="open"
+								class="md-scale md-fab-top-right" ng-mouseenter="open=true" 
+								ng-mouseleave="open=false" style="top:80px;padding:15px">
+									<md-fab-trigger>
+										<md-button aria-label="menu" class="md-fab" style="padding:15px">
+											<md-tooltip md-direction="top" md-visible="open">ADD</md-tooltip>
+											<i class="material-icons">add</i>
+										</md-button>
+									</md-fab-trigger>
+									<md-fab-actions>
+										<div ng-repeat="item in demo.items">
+											<md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini" ng-click="demo.openDialog($event, item, flight.id)"> <!-- avys -->
+												<md-tooltip md-direction="{{item.direction}}" md-visible="open" md-autohide="false">
+													{{item.name}}:{{item.price | currency}}
+												</md-tooltip>
+												<i class="material-icons">{{item.icon}}</i>
+											</md-button>
+										</div>
+									</md-fab-actions>
+								</md-fab-speed-dial>
+							</div>
+						</md-list-item>
+					</md-grid-tile>
+					<md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+						<md-grid-tile-header>
+							<h3 md-colors="{color: 'primary'}">Total</h3>
+						</md-grid-tile-header>
+						<md-list-item class="md-3-line md-long-text">
+							<div class="md-list-item-text">
+								<p ng-repeat="item in demo.itemsPicked[flight.id] track by $index">
+								  <span><a href="#" ng-click="remove(flight.id, $index)"><i style="color:red;font-size:14px" class="material-icons">highlight_off</i></a></span>
+									<span md-colors="{color:'primary'}">Including: </span> {{item.name}} for {{item.price | currency}}
+								</p>
+								<p>
+									<span md-colors="{color: 'primary'}">Cost: </span> {{(flight.roundtrip * 1) + demo.extrasCost[flight.id] | currency}} <!-- avys -->
+								</p>
+								<md-button type="submit" ng-click="demo.getSelect(flight, demo.extrasCost[flight.id], $event)" class="md-raised md-primary">Select</md-button>
+							</div>
+						</md-list-item>
+					</md-grid-tile>
+					<md-divider></md-divider>
+				</md-grid-list>
+			</md-content>
+			<md-divider></md-divider>
+		</div>
+  
+  <div flex-gt-sm="100" ng-model="hasReturn" flex ng-show="hasReturn">
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools"><span>Return</span></div>
+    </md-toolbar>
+    <md-content>
+        <md-grid-list md-cols-gt-md = "4" md-cols-sm = "4" md-cols-md = "4"
+          md-row-height-gt-md = "1:1" md-row-height = "4:3" md-gutter-gt-md = "16px" 
+          md-gutter-gt-sm = "8px" md-gutter = "4px" ng-repeat = "flight in backflights track by flight.id">
+          <md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+            <md-grid-tile-header>
+              <h3 md-colors="{color: 'primary'}">Flight details</h3>
+            </md-grid-tile-header>
+            <md-list-item class="md-3-line md-long-text">
+              <div class="md-list-item-text">
+                <p>
+                  <span md-colors="{color: 'primary'}">from:</span> {{flight.departs}}
+                </p>
+                <p>
+                  <span md-colors="{color: 'primary'}">to:</span> {{flight.arrives}}
+                </p>
+                <p>
+                  <span md-colors="{color: 'primary'}">Flight#:</span> {{flight.flight_num}} 
+                </p>
+              </div>
+            </md-list-item>
+          </md-grid-tile>
+          <md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+            <md-grid-tile-header>
+              <h3 md-colors="{color: 'primary'}">Schedule</h3>
+            </md-grid-tile-header>
+            <md-list-item class="md-3-line md-long-text">
+              <div class="md-list-item-text">
+                <p>
+                  <span md-colors="{color: 'primary'}">Departs at:</span> {{flight.dept_time}}
+                </p>
+                <p>
+                  <span md-colors="{color: 'primary'}">Arrives at:</span> {{flight.arrival_time}}
+                </p>
+                <p>
+                  <span md-colors="{color: 'primary'}">Airplane:</span>  {{flight.equipment}}
+                </p>
+              </div>
+            </md-list-item>
+          </md-grid-tile>
+          <md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+            <md-grid-tile-header>
+              <h3 md-colors="{color: 'primary'}">Includes</h3>
+            </md-grid-tile-header>
+            <md-list-item class="md-3-line md-long-text">
+              <div class="md-list-item-text">
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">In-flight WiFi usage</md-tooltip>
+                  <i class="material-icons">wifi</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Lounge</md-tooltip>
+                  <i class="material-icons">local_bar</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Meal & bar</md-tooltip>
+                  <i class="material-icons">local_dining</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Entertainment</md-tooltip>
+                  <i class="material-icons">live_tv</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Baggage 1</md-tooltip>
+                  <i class="material-icons">work</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Baggage 2</md-tooltip>
+                  <i class="material-icons">work</i>
+                </md-button>  
+                  <md-button class="md-fab md-mini">
+                    <md-tooltip md-direction="bottom">Hand Baggage</md-tooltip>
+                  <i class="material-icons">pregnant_woman</i>
+                </md-button>
+                <md-button class="md-fab md-mini">
+                  <md-tooltip md-direction="bottom">Seat</md-tooltip>
+                  <i class="material-icons">airline_seat_recline_extra</i>
+                </md-button>
+                
+                <md-fab-speed-dial ng-hide="demo.hidden" md-direction="left" md-open="open"
+                  class="md-scale md-fab-top-right" ng-mouseenter="open=true" 
+                  ng-mouseleave="open=false" style="top:80px;padding:15px">
+                  <md-fab-trigger>
+                    <md-button aria-label="menu" class="md-fab">
+                      <md-tooltip md-direction="top" md-visible="open">ADD</md-tooltip>
+                      <i class="material-icons">add</i>
+                    </md-button>
+                  </md-fab-trigger>
+                  <md-fab-actions>
+                    <div ng-repeat="item in demo.items">
+                      <md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini" ng-click="demo.openDialog($event, item, flight.id)">
+                        <md-tooltip md-direction="{{item.direction}}" md-visible="open" md-autohide="false">
+                          {{item.name}}:{{item.price | currency}}
+                        </md-tooltip>
+                        <i class="material-icons">{{item.icon}}</i>
+                      </md-button>
+                    </div>
+                  </md-fab-actions>
+                </md-fab-speed-dial>
+              </div>
+            </md-list-item>
+          </md-grid-tile>
+          <md-grid-tile md-colspan-gt-sm = "1" md-rowspan-gt-sm = "1">
+            <md-grid-tile-header>
+              <h3 md-colors="{color:'primary'}">Cost</h3>
+            </md-grid-tile-header>
+            <md-list-item class="md-3-line md-long-text">
+              <div class="md-list-item-text">
+                <p ng-repeat="item in demo.itemsPicked[flight.id] track by $index">
+				  <span><a href="#" ng-click="remove(flight.id, $index)"><i style="color:red;font-size:14px" class="material-icons">highlight_off</i></a></span>
+				  <span md-colors="{color:'primary'}">Including: </span> {{item.name}} for {{item.price | currency}}
+				</p>
+				<p>
+				  <span md-colors="{color: 'primary'}">Cost: </span> {{(flight.roundtrip * 1) + demo.extrasCost[flight.id] | currency}} <!-- avys -->
+				</p>
+                <md-button type="submit" ng-click="demo.getSelect(flight, $event)" class="md-raised md-primary">Select</md-button>
+              </div>
+            </md-list-item>
+          </md-grid-tile>
+          <md-divider></md-divider>
+        </md-grid-list>
+    </md-content>
+  </div>
+  
+
+  </div>  <!--end controller-->
+</div>
+<script type="text/ng-template" id="dialog.html">
+<div class="md-dialog-container" id="myDialog">
+  <md-dialog>
+    <md-toolbar>
+      <div class="md-toolbar-tools">Great Pick!</div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+      Hello, you are going to add {{dialog.item.name}} for {{dialog.item.price | currency}}.
+    </md-dialog-content>
+    <md-dialog-actions>
+      <md-button aria-label="Close dialog" ng-click="dialog.close()" class="md-primary">
+        Cancel
+      </md-button>
+      <md-button aria-label="Submit dialog" ng-click="dialog.submit()" class="md-primary">
+        Continue
+      </md-button>
+   </md-dialog-actions>
+  </md-dialog>
+</div>
+</script>
+<script type="text/ng-template" id="dialog1.html">
+<div class="md-dialog-container" id="myDialog">
+  <md-dialog>
+    <md-toolbar>
+      <div class="md-toolbar-tools">Confirm your selection</div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+      <p>Your departure from {{dialog.depart}} to {{dialog.dest}} on 
+      {{dialog.travel.departDate | date}} at {{dialog.departat}}.</p>
+      <p ng-show="dialog.travel.returnDate">Your return from {{dialog.dest}} to {{dialog.depart}} on 
+      {{dialog.travel.returnDate | date}}. at {{dialog.arrivesat}}.</p>
+    </md-dialog-content>
+    <md-dialog-actions>
+      <md-button aria-label="Close dialog" ng-click="dialog.close()" class="md-primary">
+        Cancel
+      </md-button>
+      <md-button aria-label="Submit dialog" ng-click="dialog.submit()" class="md-primary">
+        Continue
+      </md-button>
+   </md-dialog-actions>
+  </md-dialog>
+</div>
+</script>
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.13/angular-material.min.js"></script>
+
+<script>
+'use strict';
+   angular.module('NDC-App', ['ngMaterial', 'ngMessages'])
+    .controller('DemoCtrl', function($scope, $http, $mdDialog, $timeout) {
+      let url = 'http://35.227.22.121/flights';
+      $scope.citiesfrom = ('ARN-Stockholm,DXB-Dubai,PRG-Prague,DUB-Dublin,SFO-San Francisco,CDG-Paris,'+
+      'ATH-Athens,MUC-Munich,KTT-Kittilä,FRA-Frankfurt,RIX-Riga,LHR-London,GVA-Geneva,TXL-Berlin,'+
+      'BCN-Barcelona,IAD-Washington (Kronos)').split(',').map(function(cities) {
+        return cities;
+      });
+      // Copy dep city to dest city and remove selected dep city from dest city
+      $scope.cityto = $scope.citiesfrom;
+      $scope.getCityFrom = function() {
+        $scope.cityto = $scope.citiesfrom.filter(cityfrom => $scope.travel.fromcity != cityfrom);
+      };
+      
+      $scope.sendTravel = function() {
+        $http({ 
+          method: 'POST',
+          url: url,
+          data: $scope.travel,
+        }).then((response) => {
+          $scope.goflights = response.data.goflights;
+          $scope.backflights = response.data.backflights;
+          response.data.goflights.length > 0 ? $scope.hasDeparture = true : $scope.hasDeparture = false;
+          response.data.backflights.length > 0 ? $scope.hasReturn = true : $scope.hasReturn = false;
+        }, function (response) {});
+      };
+      
+      var self = this;
+      self.hidden = false;
+      self.isOpen = false;
+      self.hover = false;
+
+      self.items = [
+        {name:"Snacks", price:"15", icon:"restaurant", direction:"bottom"},
+        {name:"Extra bagg", price:"100", icon:"work", direction:"top"},
+        {name:"Priority boarding", price:"75", icon:"transfer_within_a_station", direction:"bottom"}
+      ];
+      self.itemsPicked = [];
+      self.extrasCost = [];
+      
+      $scope.remove = function(index, item) {
+        self.extrasCost[index] -= 1 * self.itemsPicked[index][item].price;
+        self.itemsPicked[index].splice(item, 1);
+      };
+      
+      self.getSelect = function(flight, $event) {
+        $mdDialog.show({
+          clickOutsideToClose: true,
+          controller: function($mdDialog) {
+            this.depart = flight.departs; this.dest = flight.arrives;
+            this.departat = flight.dept_time; this.arrivesat = flight.arrival_time;
+            this.travel = $scope.travel;
+            this.close = function() {
+              $mdDialog.cancel();
+            };
+            this.submit = function() {
+				      $mdDialog.hide();
+				      self.openDialog("h", 0, 0);
+            };
+          },
+          controllerAs: 'dialog',
+          templateUrl: 'dialog1.html',
+          targetEvent: $event
+        });
+      };
+      
+      self.openDialog = function($event, item, index) {
+        $mdDialog.show({
+          clickOutsideToClose: true,
+          controller: function($mdDialog) {
+            this.item = item;
+            this.close = function() {
+              $mdDialog.cancel();
+            };
+            this.submit = function() {
+				if (!self.itemsPicked[index]) //Create the array for index flight if it does not exist already
+					self.itemsPicked[index] = [];
+
+				self.itemsPicked[index].push(this.item);  //Add the extra to te flight array
+            	if (!self.extrasCost[index])  //Create total for extras for this flight is it does not exist
+            		self.extrasCost[index] = 0; 
+				self.extrasCost[index] += 1 * this.item.price;  //Upate de total for extras
+				$mdDialog.hide();
+            };
+          },
+          controllerAs: 'dialog',
+          templateUrl: 'dialog.html',
+          targetEvent: $event
+        });
+      };
+      
+      self.alert = function() {
+        alert("hello")
+      };
+    }); // end controller
+</script>
+</body>
+</html>
