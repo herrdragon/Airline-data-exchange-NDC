@@ -8,7 +8,7 @@
   "dependencies": {
     "async": "~0.2.8",
     "body-parser": "^1.18.3",
-    "body-parser-xml": "^1.1.0",
+    "body-parser-xml": "^2.0.3",
     "express": "~4.16.4",
     "fs-extra": "^7.0.1",
     "pg": "^7.8.0",
