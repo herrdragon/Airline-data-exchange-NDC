@@ -6,7 +6,7 @@
   "repository": "",
   "author": "Luis Herrnsdorf",
   "dependencies": {
-    "async": "~0.2.8",
+    "async": "~2.6.4",
     "body-parser": "^1.18.3",
     "body-parser-xml": "^1.1.0",
     "express": "~4.16.4",
